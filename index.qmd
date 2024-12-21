@@ -9,7 +9,7 @@ format:
     css: "styles.css"
 ---
 
-:::{.cr-section}
+:::{.cr-section} 
 
 <span class= "h1">Financial Risk Analysis using the OGARCH model </span>
 <span class = "h2"> by Erika Atoma December, 2024 </span>

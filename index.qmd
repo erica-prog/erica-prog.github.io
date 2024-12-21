@@ -1,5 +1,5 @@
 ---
-title: "Scrollytelling: Financial Risk Analysis"
+title: "Financial Risk Analysis"
 format:
   closeread-html:
     self-contained: true

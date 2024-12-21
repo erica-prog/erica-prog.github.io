@@ -4,10 +4,12 @@ Scrollytelling stories let you explain complicated concepts to readers as they s
 
 This is my first financial report presented in a scrolltelling.
 
-# About Me: 
+# About Me
 I am passionate about learning new tools in R Studio.
 
 Feel free to reach out to me via [email](mailto:atomamaro@gmail.com) or connect with me on [LinkedIn](www.linkedin.com/in/erika-atoma-a71917186).
 
-#Preview of my scrollytelling page
+# Preview of my scrollytelling page
+
+
 

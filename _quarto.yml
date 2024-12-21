@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Scrolltelling: Financial Risk Analysis"
+  title: "Scrollytelling: Financial Risk Analysis"
   navbar:
     left:
       - href: index.qmd

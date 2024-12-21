@@ -1,9 +1,12 @@
 ---
 title: "About"
+format:
+  css: "styles.css"
 ---
 
-About this site
 
-```{r}
-1 + 1
-```
+<span class = "h1"> About Me: </span>
+
+Scrollytelling stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your own web graphics.
+
+This is my first financial report presented in a scrolltelling. 

@@ -9,7 +9,7 @@
   background-color: #112A46; /* Navy for the narrative column */
   color: #ACC8E5;           /* White text for contrast */
   padding: 15px;
-  border-radius: 8px;     /* Optional: rounded corners */
+  text-align: left;       /* Center-align the text inside .narrative */
 }
 
 /* Style the triggers inside the narrative column */
@@ -20,7 +20,7 @@
   color: #ACC8E5;           /* Ensure text matches the sidebar color */
   line-height: 2; /* Double-spacing for the narrative section */
   padding: 10px;
-  border: 1px solid white; /* Optional: border around triggers */
+  text-align: left;       /* Center-align the text */
 }
 
 /* Customize the sticky column */
@@ -59,12 +59,14 @@ html {
   font-family: 'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif';
   font-size: 40px;
   font-weight: 700;
+  text-align: left; 
 }
 
 .h2 {
   font-family: 'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif';
   font-size: 20px;
   font-weight: 700;
+  text-align: left; 
 }
 
 .h3 {
@@ -72,6 +74,7 @@ html {
   font-size: 30px;
   line-height: 2; /* Double-spacing for headings */
   font-weight: 700;
+  text-align: left; 
 }
 
 

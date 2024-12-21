@@ -361,21 +361,7 @@ The backtesting analysis indicates whether the VaR model is reliable for predict
 
 <span class = "hblue"> **Caution!!!** This is just a small scope of analyzing the volatility in financial data. But it can be explored by more univariate models like ARCH (1,1), GARCH(1,1). </span>
 
-::: {layout-nrow=1}
-<span class = "h2"> Social Media </span>
 
-::: {.column}
-[![LinkedIn](image/linkedln.png)](https://www.linkedin.com/in/erika-atoma-data/){width=8%}
-:::
-
-::: {.column}
-![Medium: @atomamaro](image/medium.png)
-:::
-
-::: {.column}
-[![Github](image/github.png)](https://github.com/erica-prog/portfolio){width=8%} 
-:::
-:::
 
 :::
 

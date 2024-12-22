@@ -317,7 +317,7 @@ Advantages of using the empirical quantile method for VaR calculation include:
 
 However, the approach has several drawback:
 
-- It assumes that the distribution of the loss \(x_t\) remains unchanged from the sample period to the prediction period. 
+- It assumes that the distribution of the loss ($x_t$) remains unchanged from the sample period to the prediction period. 
 - Given that VaR is concerned mainly with tail probability, this assumption implies that the predicted loss cannot be greater than that of the historical loss. It is definitely not so in practice. 
 :::
 

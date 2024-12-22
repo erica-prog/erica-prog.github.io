@@ -12,10 +12,10 @@ format:
 :::{.cr-section} 
 
 <span class= "h1">Financial Risk Analysis using the OGARCH model </span>
-<span class = "h2"> by Erika Atoma December, 2024 </span>
+<span class = "h2"> December, 2024 </span>
 
 
-This is a financial analysis of the asset volatility and volatility models However, this is not financial advice for people to invest in the semiconductor manufacturing stocks. 
+This is a financial analysis of the asset volatility and volatility models. However, this is not financial advice for people to invest in the semiconductor manufacturing stocks. 
 
 
 I am giving credit to the following books for equipping me with this knowledge on Financial Risk Forecasting: 

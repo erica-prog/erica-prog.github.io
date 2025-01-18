@@ -2,7 +2,7 @@
 
 Scrollytelling stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your web graphics.
 
-This is my first financial report presented in a scrolltelling.
+This is my first financial report presented in a scrolly telling.
 
 # About Me
 I am currently a graduate student in Data Science. I am passionate about learning new tools in R Studio.

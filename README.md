@@ -4,7 +4,7 @@ Scrollytelling stories let you explain complicated concepts to readers as they s
 
 # Abstract 
 
-This article attempts a concise financial risk analysis of top semiconductor industry stocks, leveraging unique models such as the multivariate OGARCH model, Value-at-Risk (VaR) and volatility metrics, powered by Yahoo finance data. The article also explores critical factors influencing investment decisions, emphasizing the importance of accounting for unseen volatility events. This article provides readers with an understanding of how these fluctuations impact stock performance and understand that volatility is essential for making informed investment choices in this sector.
+This article attempts a concise financial risk analysis of top semiconductor industry stocks, leveraging unique models such as the multivariate orthogonal GARCH (OGARCH) model, Value-at-Risk (VaR) and volatility metrics, powered by Yahoo finance data. The article also explores critical factors influencing investment decisions, emphasizing the importance of accounting for unseen volatility events. This article provides readers with an understanding of how these fluctuations impact stock performance and understand that volatility is essential for making informed investment choices in this sector.
 
 # Full Description 
 

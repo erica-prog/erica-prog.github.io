@@ -1,0 +1,337 @@
+---
+title: "quarto-financial analysis test"
+format: html
+editor: visual
+---
+
+## Load the Libraries:
+
+```{r}
+###########################
+#Install the libraries######
+############################
+
+library(quantmod)
+library(tidyverse)
+library(PerformanceAnalytics)
+library(timeSeries)
+library(tseries)
+library(roll)
+library(car)
+library(MASS)
+library(extraDistr)
+library(rugarch)
+library(rmgarch)
+library(BEKKs)
+library(QRM)
+library(rmarkdown)
+library(dplyr)
+library(TTR)
+library(xts)
+
+```
+
+# Download the Stocks
+
+Download daily prices for Qualcomm (QCOM), Broadcom Inc. (AVGO), Micron Technology, Inc. (MU), Texas Instruments Incorporated (TXN), Advanced Micro Devices, Inc. (AMD) and NVIDIA Corporation (NVDA) stocks from 1/1/14 to 31/12/23.
+
+```{r}
+rm(list = ls()) #clear all 
+
+ENV.CW2 <- new.env()
+Stocks <- c('Qualcomm', 'Broadcom Inc.', 'Advanced Micro Devices, Inc.', 'Micron Technology, Inc.', 'Texas Instruments Incorporated', 'NVIDIA Corporation')
+tickers <- c('QCOM', 'AVGO', 'AMD', 'MU', 'TXN', 'NVDA')
+tickers_cleaned <- c('QCOM', 'AVGO', 'AMD', 'MU', 'TXN', 'NVDA')
+tickers_cleaned <- as.vector(sapply(tickers_cleaned, 
+                                    FUN = function(x) paste(x, '.Adjusted', 
+                                                            sep = '')))
+
+
+Stocks
+
+
+#Get the data from YahooFinance
+Symbols <- getSymbols(Symbols = tickers, src = 'yahoo', 
+                      from = "2014-01-01", 
+                      to = "2023-12-31",
+                      env = ENV.CW2)
+
+
+#Create one XTS object containing adjusted prices of all stocks (getting different observations?)
+Adjusted_Stock_Prices <- do.call(merge, eapply(env = ENV.CW2, Ad))
+#Add extracts adjusted prices for every stock. Consequently, all adjusted prices
+Adjusted_Stock_Prices <- Adjusted_Stock_Prices[, tickers_cleaned] #Restore the right 
+names(Adjusted_Stock_Prices) <- Stocks
+```
+
+```{r}
+#Plot daily returns
+x1<-t(t(Adjusted_Stock_Prices)/drop(coredata(Adjusted_Stock_Prices[1,])))
+xt<-xts(x=x1,order.by = index(Adjusted_Stock_Prices))
+plot(x=index(xt),y=x1[,6], type = 'l', main = 'Index of all selected assets', 
+     ylab = 'Index', xlab = 'Trading Days', col='red', ylim = range(c(x1[,6], x1[, 2])))
+lines(x=index(xt),y=x1[,5], col = 'blue')
+lines(x=index(xt),y=x1[,4], col = 'green')
+lines(x=index(xt),y=x1[,3], col = 'purple')
+lines(x=index(xt),y=x1[,2], col = 'pink')
+lines(x=index(xt),y=x1[,1], col = 'brown')
+
+# Adding the legend
+legend('topleft', legend = names(xt), col = c('red', 'blue', 'green', 'purple', 'pink', 'brown'), cex= 0.4,  lty=1)
+```
+
+# Convert Daily Returns  to Log Returns
+
+```{r}
+log_returns <- diff(log(Adjusted_Stock_Prices)) # Compute daily log returns
+log_returns <- na.omit(log_returns) # Remove rows containing na's
+```
+
+# Computing Statistics to Stock Prices
+
+```{r}
+# Computing Statistics
+AvgRet = colMeans(log_returns)
+StdDevRet = colSds(log_returns)
+MaxRet = colMaxs(log_returns)
+MinRet = colMins(log_returns)
+SkewRet = colSkewness(log_returns)
+KurtRet = colKurtosis(log_returns)
+DailyStats <- as.table(rbind(AvgRet, StdDevRet, MaxRet, MinRet, SkewRet, KurtRet))
+knitr::kable(DailyStats, digits=4)
+```
+
+Display the log returns vs trading days:
+
+```{r}
+par(mfrow =c(3,2))
+for (i in 1:6) {
+  plot(x = index(log_returns), y= log_returns[, i], type =  'l', 
+       main = Stocks[i], xlab = 'Trading Days', ylab = 'Returns', ylim  = c(-0.25, 0.25), col = 'blue')
+}
+```
+
+#  Volatility Clusters
+
+Autocorrelation plot:
+
+```{r}
+#Plot the autocorrelation function of returns squared to check for normality 
+par(mfrow =c(3,2))
+for (i in 1:6) {
+  acf(x = log_returns[, i]^2, lag.max = 30, 
+      main = paste(Stocks[i], '- Autocorrelation of returns squared'))
+}
+```
+
+# Fat Tails
+
+QQ-plot
+
+```{r}
+#Plot the QQ plot of the returns
+par(mfrow =c(3,2))
+for (i in 1:6) {
+  qqPlot(as.vector(log_returns[, i]), 
+         xlab = 'Standard Normal Quantiles',
+         ylab = 'Quantiles of Input Sample',
+         main = Stocks[i],
+         envelope = FALSE)
+}
+```
+
+# Correlation
+
+```{r}
+# Sample Correlations - all stocks
+stocks_corr <- cor(log_returns_demean) 
+knitr::kable(stocks_corr, digits=4, align = 'c')
+```
+
+# Principal Component Analysis
+
+```{r}
+#Get historical prices and convert into log returns
+log_returns_demean <- sweep(x = log_returns, MARGIN = 2, STATS = AvgRet) # De-mean returns
+
+
+#Estimate a multivariate conditional variance model using PCA to estimate factor structure
+PCA <- prcomp(x = log_returns_demean)
+Table_PCA <- rbind(PCA$rotation, summary(PCA)$importance)
+Table_PCA
+
+
+par(mfrow=c(1,1)) 
+plot(Table_PCA['Proportion of Variance',], type = 'l', lwd = 5, col = 'blue', xlim = c(1,4), main = 'PC proportions of total variance', xlab = 'PC', ylab = 'Proportion of variance', axes = FALSE)
+axis(1, 1:4)
+axis(2)
+
+ggplot(data = PCA$rotation, mapping = aes(x = c(1:6))) + 
+  geom_line(aes(y = PCA$rotation[, 'PC1']), color = 'red') +
+  geom_line(aes(y = PCA$rotation[, 'PC2']), color = 'blue') +
+  geom_line(aes(y = PCA$rotation[, 'PC3']), color = 'green') +
+  scale_x_continuous(breaks = seq(1, 6, 1)) +
+  annotate(geom="text", x = 3, y = - 0.5, label="PC1", color="red") +
+  annotate(geom="text", x = 2, y = 0.3, label="PC2", color="blue") +
+  annotate(geom="text", x = 5, y = 0.3, label="PC3", color="green") 
+
+
+print(paste('We need', sum(Table_PCA['Cumulative Proportion',] < 0.85) + 1, 'principal components to explain at least 85% of variance'))
+
+#Double check how factors are constructed
+w <- PCA$rotation
+w
+
+f <- PCA$x
+head(f)
+```
+
+# Orthogonal GARCH (OGARCH) model
+
+```{r}
+#We need 3 PCs to estimate the factor structure of the stock returns and univariate volatility model
+
+nf <- 3
+GARCH_1_1 <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1, 1)), 
+                        mean.model = list(armaOrder = c(0, 0), include.mean = FALSE))
+uspec <- multispec(replicate(nf, GARCH_1_1)) # Univariate Garch on 3 factors
+GARCH_multifit <- multifit(multispec = uspec, data = f[,1:nf], solver = 'hybrid')
+
+
+#the multivariate model for the in-sample data ending at 2023-12-31
+sigma <- sigma(GARCH_multifit)
+#the factor variances for the selected PCs for in-sample data ending on 2023-12-31
+htMat <- xts(sigma^2, order.by = index(log_returns_demean))
+
+
+# Set residual unexplained variation constant
+errors <- log_returns_demean - f[, 1:nf] %*% t(PCA$rotation[,1:nf])
+omega <- diag(colMeans(errors^2))
+
+#the covariance-variance matrix, portfolio returns and variances for in-sample dates ending 2023-12-31
+ht <- array(dim = c(length(Stocks), length(Stocks), dim(log_returns_demean)[1]))
+p_volatility <- xts(matrix(nrow = length(index(log_returns_demean)), ncol = 1), order.by = index(log_returns_demean)) 
+p_returns <-  xts(matrix(nrow = length(index(log_returns_demean)), ncol = 1), order.by = index(log_returns_demean)) 
+
+#weights of each asset in the portfolio 
+weights <- rep(1/6, 6)
+weights
+
+#create a matrix of the weights of the portfolio 
+six <- as.matrix(weights)
+dim(six)
+
+#create a matrix of the demeaned log returns
+mu <- as.matrix(log_returns_demean)
+
+#compute the covariance-variance matrix, portfolio volatility and portfolio returns for in-sample data ending on 2023-12-31
+for (i in 1:dim(log_returns_demean)[1]) {
+  ht[, , i] <- PCA$rotation[, 1:nf] %*% diag(as.numeric(htMat[i, ])) %*% t(PCA$rotation[, 1:nf]) + omega
+  
+  # Extract the conditional covariance matrix for all in-sample dates 
+  ht_i <- ht[, , i]
+  
+  # Calculate portfolio volatility
+  p_volatility[i] <- sqrt(t(six) %*% ht_i %*% six)
+  
+  # Calculate portfolio returns
+  p_returns[i] <- t(six) %*% mu[i, ] 
+  
+}
+```
+
+# Value-at-Risk (VaR) in the next trading day (1/1/2024)
+
+```{r}
+#first day of 2024 prediction for factor variances
+htMat_first_2024 <- matrix(0, ncol = nf, nrow = 1)
+colnames(htMat_first_2024) <- paste0("PC", 1:nf)
+for (i in 1:nf) {
+  model_fit <- GARCH_multifit@fit[[i]]
+  
+  model_fit_forecast <- ugarchforecast(model_fit, n.ahead = 1)
+  
+  htMat_first_2024[i] <- sigma(model_fit_forecast)^2
+}
+
+#finding the diagonal conditional error matrix 
+errors <- log_returns_demean - f[, 1:nf] %*% t(PCA$rotation[,1:nf])
+omega <- diag(colMeans(errors^2))
+
+#calculating the covariance-variance matrix for the first day of trading 2024
+ht_2024 <- PCA$rotation[,1:nf] %*% diag(as.numeric(htMat_first_2024[1, ])) %*% t(PCA$rotation[,1:nf]) + omega
+
+
+#the portfolio conditional volatility of first_day 2024
+p_volatility_first_2024 <- sqrt(t(six) %*% ht_2024 %*% six)
+
+
+
+#Compute the  VaR estimate for first_day 2024 at 5% using parametric method
+# Define significance level
+p5 <- 0.05
+
+#parametric method - normal distribution 
+VaRt_2024  <- - qnorm(p5)*p_volatility_first_2024
+
+VaRt_2024
+
+```
+
+# Back-testing Model
+
+```{r}
+#Setting up the backtesting model 
+Ts <- length(index(p_returns))
+WE <- 25/p5
+
+# Create an empty data frame and matrix pre-allocation of p_volatility and VaRt
+back_test <- data.frame(Date = index(p_returns),
+                               p_volatility_all = numeric(length(p_returns)),
+                               VaRt = numeric(length(p_returns)))
+
+
+for (t in (WE+1):Ts) {
+  t1 = t-WE #start of the data window 
+  t2 = t-1 #end of the data window 
+  window = log_returns_demean[t1:t2, ] #data for estimation 
+  
+  PCA_w <- prcomp(x = window)
+  f_w = PCA_w$x
+  
+  #GARCH model for the PCs
+  GARCH_1_1 <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1, 1)), 
+                          mean.model = list(armaOrder = c(0, 0), include.mean = FALSE))
+  uspec <- multispec(replicate(nf, GARCH_1_1)) 
+  GARCH_multifit <- multifit(multispec = uspec, data = f_w[,1:nf], solver = 'hybrid')
+  
+  #forecast the next window 
+  htMat <- numeric(nf)
+  for (i in 1:nf) {
+    model_fit_all <- GARCH_multifit@fit[[i]]
+    
+    model_fit <- ugarchforecast(model_fit_all, n.ahead = 1)
+    
+    htMat[i] <- sigma(model_fit)^2
+  }
+  
+  #finding the diagonal conditional error matrix 
+  errors <- log_returns_demean[t1:t2, ] - f_w[, 1:nf] %*% t(PCA_w$rotation[,1:nf])
+  omega_t <- diag(colMeans(errors^2))
+  
+  #calculating the covariance-variance matrix 
+  ht <- PCA_w$rotation[,1:nf] %*% diag(htMat) %*% t(PCA_w$rotation[,1:nf]) + omega_t
+  
+  back_test$p_volatility_all[t] <- sqrt(t(six) %*% ht %*% six)
+  
+  back_test$VaRt[t] <- -back_test$p_volatility_all[t] * qnorm(p5)
+}
+
+#plot parametric method VaRt against portfolio returns
+
+plot(x = index(p_returns), y = p_returns, ylab = "VaR/Returns", lwd = 1,
+     xlab = "Date", type = "l", col = "red")
+lines(x = index(p_returns), y = -back_test$VaRt, col = "blue", lwd = 3)
+legend("bottomleft", legend = c('Returns', 'VaR'), lty = 1, col = c("red", "blue"))
+
+```

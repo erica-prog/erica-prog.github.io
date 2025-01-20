@@ -19,5 +19,5 @@ Feel free to reach out to me via [email](mailto:atomamaro@gmail.com) or connect 
 
 # Preview of Scrollytelling 
 
-![preview of my scrollytellying page](https://github.com/erica-prog/erica-prog.github.io/blob/main/image/preview_scrollytelling.png)
+![preview of my scrollytellying page](https://github.com/erica-prog/erica-prog.github.io/blob/main/image/preview_scrollytelling.gif)
 

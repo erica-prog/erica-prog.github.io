@@ -12,11 +12,6 @@ The following stocks are examined in a stock portfolio: Qualcomm (QCOM), Broadco
 
 Additionally, a 1% value-at-risk model (VaR) model is calculated to examine the long position of $1 million on the stock portfolio for the next trading day. The reliability of the VaR model is further assessed using a backtesting framework to validate its effectiveness in forecasting risks.
 
-# About Me
-I am currently a graduate student in Data Science. I am passionate about learning new tools in R Studio.
-
-Feel free to reach out to me via [email](mailto:atomamaro@gmail.com) or connect with me on [LinkedIn](www.linkedin.com/in/erika-atoma-a71917186).
-
 # Preview of Scrollytelling 
 
 ![preview of my scrollytellying page](https://github.com/erica-prog/erica-prog.github.io/blob/main/image/preview_scrollytelling.gif)

@@ -1,6 +1,6 @@
 # Scrollytelling with Quarto: Close read Prize
 
-Scrollytelling stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your web graphics.
+[Scrollytelling](https://posit.co/blog/closeread-prize-announcement/) stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your web graphics.
 
 # Abstract 
 

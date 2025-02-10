@@ -2,6 +2,8 @@
 
 [Scrollytelling](https://posit.co/blog/closeread-prize-announcement/) stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your web graphics.
 
+You can visit my scrolltelling website here: [Financial Risk Analysis using the OGARCH model](https://erica-prog.github.io/)
+
 # Abstract 
 
 This article attempts a concise financial risk analysis of top semiconductor industry stocks, leveraging unique models such as the multivariate orthogonal GARCH (OGARCH) model, Value-at-Risk (VaR) and volatility metrics, powered by Yahoo finance data. The article also explores critical factors influencing investment decisions, emphasizing the importance of accounting for unseen volatility events. This article provides readers with an understanding of how these fluctuations impact stock performance and understand that volatility is essential for making informed investment choices in this sector.

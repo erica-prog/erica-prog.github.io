@@ -2,7 +2,7 @@
 
 [Scrollytelling](https://posit.co/blog/closeread-prize-announcement/) stories let you explain complicated concepts to readers as they scroll down the page. You could build up a complicated plot layer-by-layer, zoom in on a famous map, highlight a key quote from an interviewee, or even animate your web graphics.
 
-You can visit my scrolltelling website here: [Financial Risk Analysis using the OGARCH model](https://erica-prog.github.io/)
+You can visit my scrollytelling website here: [Financial Risk Analysis using the OGARCH model](https://erica-prog.github.io/)
 
 # Abstract 
 

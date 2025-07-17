@@ -10,7 +10,9 @@ This article attempts a concise financial risk analysis of top semiconductor ind
 
 # Full Description 
 
-The following stocks are examined in a stock portfolio: Qualcomm (QCOM), Broadcom Inc. (AVGO), Micron Technology, Inc. (MU), Texas Instruments Incorporated (TXN), Advanced Micro Devices, Inc. (AMD), and NVIDIA Corporation (NVDA). The historical daily returns are log-transformed for each stock and analyzed to identify periods of varying volatility sizes during the sampled period (January 1, 2014, to December 31, 2023). The multivariate orthogonal GARCH (O-GARCH) model is applied using principal component factors to identify key drivers affecting these components and compute a conditional variance matrix for each period.
+The following stocks are examined in a stock portfolio: Qualcomm (QCOM), Broadcom Inc. (AVGO), Micron Technology, Inc. (MU), Texas Instruments Incorporated (TXN), Advanced Micro Devices, Inc. (AMD), and NVIDIA Corporation (NVDA). The historical daily returns are log-transformed for each stock and analyzed to identify periods of varying volatility sizes during the sampled period (January 1, 2014, to December 31, 2023). The returns are proven to be stationary using Augmented Dickey-Fuller test (ADF test). The multivariate orthogonal GARCH (O-GARCH) model is applied using principal component factors to identify key drivers affecting these components and compute a conditional variance matrix for each period. 
+
+**2025 Update: Furthermore, I examine EWMA, ARIMA, and DCC Volatility Models using the principal component factor model**  
 
 Additionally, a 1% value-at-risk model (VaR) model is calculated to examine the long position of $1 million on the stock portfolio for the next trading day. The reliability of the VaR model is further assessed using a backtesting framework to validate its effectiveness in forecasting risks.
 
